@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -65,46 +66,13 @@ public class MainActivity extends Activity {
             	
             	String strTo = et_to.getText().toString();
             	
-            	
-
-            	OtwarteZabytkiApi api = getApi();
-            	
-            	
-            	Callback<RelicJsonWrapper> cb = new Callback<RelicJsonWrapper>() {
-
-					@Override
-					public void failure(RetrofitError rError) {
-						Log.e("network", "failure on network request");		
-						Log.e("network", rError.getLocalizedMessage());					
-
-					}
-
-					@Override
-					public void success(RelicJsonWrapper relicWrapper, Response response) {
-						Log.d("network", "succes !!!!!!!! ");
-						
-						for (Relic r : relicWrapper.relics){
-							Log.d("relic name", r.identification);
-							
-						}
-						
-						
-						
-					}
-            		
-				};
-            	
-            	
-            	api.getRelics(strPlace, strName, strFrom, strTo, cb);
-            	
-            	
-            	
-            	
                 
-                
-                
-                
-                
+                Intent intent = new Intent(MainActivity.this, ResultListActivity.class);
+                intent.putExtra("key_name", strName);
+                intent.putExtra("key_place", strPlace);
+                intent.putExtra("key_from", strFrom);
+                intent.putExtra("key_to", strTo);
+                startActivity(intent);
             }
         } );
         
@@ -120,25 +88,7 @@ public class MainActivity extends Activity {
     }
     
     
-    public OtwarteZabytkiApi getApi(){
-    	RestAdapter restAdapter = new RestAdapter.Builder()
-    		.setServer("http://otwartezabytki.pl/api/v1")
-    		.setConverter( new GsonConverter( new Gson()))
-    		.build();
-    	
-    	OtwarteZabytkiApi api = restAdapter.create( OtwarteZabytkiApi.class);
-    	
-    	return api;
-
-    	
-    	
-//    	RestAdapter restAdapter = new RestAdapter.Builder()
-//        .setServer("http://otwartezabytki.pl/api/v1")
-//        .setConverter(new GsonConverter(new Gson()))
-//        .build();
-//
-//    	OtwarteZabytkiApi api = restAdapter.create(OtwarteZabytkiApi.class);
-    }
+    
     
 
     
